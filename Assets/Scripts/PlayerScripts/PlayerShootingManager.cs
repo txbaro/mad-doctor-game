@@ -5,12 +5,11 @@ public class GunData
 {
     public string gunName;
     
-    // --- SỬA: Thêm các biến lưu tên Animation cho từng súng ---
     public string idleAnimName = "Idle";
     public string walkAnimName = "Walk";
     public string shootAnimName = "Shoot";
+    public string deathAnimName = "Death";
 
-    // Sprite chỉ dùng để hiển thị UI hoặc icon (nếu cần), không gán trực tiếp vào Player nữa
     public Sprite gunIcon; 
     
     public GameObject bulletPrefab;
@@ -84,17 +83,23 @@ public class PlayerShootingManager : MonoBehaviour
     public void FireLaser()
     {
         laserObject.SetActive(true);
-        float directionSign = transform.localScale.x > 0 ? 1f : -1f;
-        Vector2 direction = Vector2.right * directionSign;
+        
+        float playerScaleX = transform.root.localScale.x;
+        float directionSign = playerScaleX > 0 ? 1f : -1f;
+        
+        Vector2 direction = new Vector2(directionSign, 0f);
+        
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawnPos.position, direction, laserRange, enemyLayer);
-        float length = laserRange;
+        
         if (hit.collider != null)
         {
-            length = hit.distance;
             EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
-            if (enemy != null) enemy.TakeDamage(laserDamagePerSecond * Time.deltaTime);
+            if (enemy != null) enemy.TakeDamage(laserDamagePerSecond * Time.deltaTime, DamageSource.Lazer);
         }
-        laserObject.transform.localScale = new Vector3(length * directionSign, 1f, 1f);
+
+        Vector3 laserScale = laserObject.transform.localScale;
+        laserScale.x = Mathf.Abs(laserScale.x); 
+        laserObject.transform.localScale = laserScale;
     }
 
     public void StopLaser()

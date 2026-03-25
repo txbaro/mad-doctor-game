@@ -19,7 +19,7 @@ public class CameraFollow : MonoBehaviour
         playerTarget = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).transform;
     }
 
-    private void Update()
+    private void LateUpdate() 
     {
         if(!playerTarget)
         {
@@ -38,14 +38,7 @@ public class CameraFollow : MonoBehaviour
                 playerTarget.position.y + Y_Gap, -10f), smoothSpeed * Time.deltaTime);
         }
 
-        if(tempPos.x > playerBoundMax_X)
-        {
-            tempPos.x = playerBoundMax_X;
-        }
-        else if(tempPos.x < playerBoundMin_X)
-        {
-            tempPos.x = playerBoundMin_X;
-        }
+        tempPos.x = Mathf.Clamp(tempPos.x, playerBoundMin_X, playerBoundMax_X);
 
         transform.position = tempPos;
     }

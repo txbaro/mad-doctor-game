@@ -43,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
     
     void HandleMovement()
     {
+        if (!canMove) return; 
+
         xAixs = Input.GetAxisRaw(TagManager.HORIZONTAL_AXIS);
         yAixs = Input.GetAxisRaw(TagManager.VERTICAL_AXIS); 
 
@@ -50,11 +52,8 @@ public class PlayerMovement : MonoBehaviour
         tempPos.x += xAixs * moveSpeed * Time.deltaTime;
         tempPos.y += yAixs * moveSpeed * Time.deltaTime;
 
-        // Giới hạn biên
-        if (tempPos.x < minBound_X) tempPos.x = minBound_X;
-        if (tempPos.x > maxBound_X) tempPos.x = maxBound_X;
-        if (tempPos.y < minBound_Y) tempPos.y = minBound_Y;
-        if (tempPos.y > maxBound_Y) tempPos.y = maxBound_Y;
+        tempPos.x = Mathf.Clamp(tempPos.x, minBound_X, maxBound_X);
+        tempPos.y = Mathf.Clamp(tempPos.y, minBound_Y, maxBound_Y);
         
         transform.position = tempPos;
     }
@@ -149,8 +148,16 @@ public class PlayerMovement : MonoBehaviour
     public void PlayerDied()
     {
         playerDied = true;
-        playerAnimation.PlayAnimation(TagManager.DEATH_ANIMATION_NAME);
-        Invoke("DestroyPlayerAfterDelay", 1.5f);
+
+        GunData currentGun = playerShootingManager.GetCurrentGun();
+        
+        string deathAnim = (currentGun != null && !string.IsNullOrEmpty(currentGun.deathAnimName)) 
+                            ? currentGun.deathAnimName 
+                            : TagManager.DEATH_ANIMATION_NAME;
+
+        playerAnimation.PlayAnimation(deathAnim);
+        
+        Invoke(nameof(DestroyPlayerAfterDelay), 1.5f);
     }
 
     void DestroyPlayerAfterDelay()

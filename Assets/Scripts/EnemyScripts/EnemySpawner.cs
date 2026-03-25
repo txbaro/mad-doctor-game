@@ -24,12 +24,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        Invoke("SpawnEnemy", Random.Range(minSpawnTime, maxSpawnTime));
+        Invoke(nameof(SpawnEnemy), Random.Range(minSpawnTime, maxSpawnTime));
     }
 
     void SpawnEnemy()
     {
-        Invoke("SpawnEnemy", Random.Range(minSpawnTime, maxSpawnTime));
+        Invoke(nameof(SpawnEnemy), Random.Range(minSpawnTime, maxSpawnTime));
+
+        spawnedEnemies.RemoveAll(item => item == null); 
 
         if (spawnedEnemies.Count < enemySpawnLimit)
         {
@@ -47,10 +49,8 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-
     public void EnemyDied(GameObject enemy)
     {
         spawnedEnemies.Remove(enemy);
     }
-
 }

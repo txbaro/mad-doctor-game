@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 1851966449910099932}
   - component: {fileID: 9165573385024024299}
   - component: {fileID: 3790596584385189122}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Base
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,6 +210,8 @@ MonoBehaviour:
   moveSpeed: 2
   meleeDistance: 1.5
   rangedDistance: 5
+  lazerHitAnimName: GetElectric6
+  getHitAnimName: GetHit6
   attackWaitTime: 2.5
   attackFinishedWaitTime: 0.5
   enemyDamageArea: {fileID: 1247517025031530782}
@@ -230,6 +232,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   health: 100
+  potionPrefabs:
+  - {fileID: 8544965255886750718, guid: 0ad323aa7dd082bb6808661d9735db40, type: 3}
+  - {fileID: 8227374248102078862, guid: 1a20b5aa819994ffcaf866be38bef8e6, type: 3}
+  dropChance: 0.5
 --- !u!1 &8722679551117201898
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2747978775327930208}
   - component: {fileID: 1247517025031530782}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Damage Area
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
@@ -278,4 +284,5 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  damageRadius: 1
   damageAmount: 5

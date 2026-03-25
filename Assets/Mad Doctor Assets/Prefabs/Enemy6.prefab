@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5951987117847533593}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -43,6 +43,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1310404032529668550, guid: 930bd4a24d8170469b09a3a8fb792799, type: 3}
+    - target: {fileID: 3790596584385189122, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: potionPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3790596584385189122, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: 'potionPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8544965255886750718, guid: 0ad323aa7dd082bb6808661d9735db40, type: 3}
+    - target: {fileID: 3790596584385189122, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: 'potionPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8227374248102078862, guid: 1a20b5aa819994ffcaf866be38bef8e6, type: 3}
     - target: {fileID: 5644033411069379876, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -91,6 +103,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy6
       objectReference: {fileID: 0}
+    - target: {fileID: 8610913123691149737, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610913123691149737, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722679551117201898, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 9165573385024024299, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
       propertyPath: attackType
       value: 0
@@ -102,7 +126,15 @@ PrefabInstance:
     - target: {fileID: 9165573385024024299, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
       propertyPath: bulletPrefab
       value: 
-      objectReference: {fileID: 7654260459243770137, guid: 0ece24466fe5cb36aa001f63243fd548, type: 3}
+      objectReference: {fileID: 1550435689995047691, guid: 0ece24466fe5cb36aa001f63243fd548, type: 3}
+    - target: {fileID: 9165573385024024299, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: getHitAnimName
+      value: GetHit5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165573385024024299, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
+      propertyPath: lazerHitAnimName
+      value: GetElectric5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

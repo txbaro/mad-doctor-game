@@ -17,6 +17,10 @@ public class GameplayController : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject); 
+        }
     }
 
     public void EnemyKilled()
@@ -29,11 +33,16 @@ public class GameplayController : MonoBehaviour
     {
         enemyKillCount = 0;
         enemyKillCountText.text = "Kills: 0";
-        Invoke("Restart", 2f);
+        Invoke(nameof(Restart), 2f);
     }
 
     void Restart()
     {
         SceneManager.LoadScene("Gameplay");
+    }
+
+    public int GetScore()
+    {
+        return enemyKillCount; 
     }
 }

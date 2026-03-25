@@ -2,19 +2,17 @@ using UnityEngine;
 
 public class EnemyDamageArea : MonoBehaviour
 {
-    [SerializeField] 
-    private float deactivateWaitTime = 0.1f;
+    [SerializeField] private float deactivateWaitTime = 0.1f;
     private float deactivateTimer;
 
-    [SerializeField] 
-    private LayerMask playerLayer;
+    [SerializeField] private LayerMask playerLayer;
+    
+    [SerializeField] private float damageRadius = 1f; 
 
     private bool canDealDamage;
-
     private PlayerHealth playerHealth;
 
-    [SerializeField]
-    private float damageAmount = 5f;
+    [SerializeField] private float damageAmount = 5f;
 
     private void Awake()
     {
@@ -24,9 +22,9 @@ public class EnemyDamageArea : MonoBehaviour
 
     private void Update()
     {
-        if (Physics2D.OverlapCircle(transform.position, 1f, playerLayer))
+        if (Physics2D.OverlapCircle(transform.position, damageRadius, playerLayer))
         {
-            if(canDealDamage)
+            if(canDealDamage && playerHealth != null) 
             {
                 canDealDamage = false;
                 playerHealth.TakeDamage(damageAmount);

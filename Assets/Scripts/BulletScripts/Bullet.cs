@@ -4,10 +4,14 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 15f;
     [SerializeField] private float damageAmount = 35f;
-
-    private Vector3 moveVector = Vector3.zero;
+    [SerializeField] private float lifeTime = 5f;
 
     private Vector3 tempScale; 
+
+    private void Start()
+    {
+        Destroy(gameObject, lifeTime); 
+    }
 
     private void Update()
     {
@@ -16,8 +20,7 @@ public class Bullet : MonoBehaviour
 
     void moveBullet()
     {
-        moveVector.x = moveSpeed * Time.deltaTime;
-        transform.position += moveVector;
+        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
     }
 
     public void SetNegativeSpeed()
@@ -30,12 +33,20 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        EnemyHealth health = collision.GetComponentInParent<EnemyHealth>();
-
-        if (health != null)
+        if (collision.CompareTag("Enemy"))
         {
-            health.TakeDamage(damageAmount);
-             Destroy(gameObject);
+            EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
+            if (enemyHealth == null)
+            {
+                enemyHealth = collision.GetComponentInParent<EnemyHealth>();
+            }
+            
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damageAmount, DamageSource.Bullets);
+            }
+
+            Destroy(gameObject);
         }
     }
 }

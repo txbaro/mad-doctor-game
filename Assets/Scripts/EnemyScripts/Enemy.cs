@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float rangedDistance = 5f;
 
     private PlayerAnimation enemyAnimation;
+    [Header("Animation Settings")]
+    [SerializeField] private string lazerHitAnimName = "GetElectric";
+    [SerializeField] private string getHitAnimName = "GetHit";
 
     [SerializeField] private float attackWaitTime = 2.5f;
     private float attackTimer;
@@ -33,7 +36,13 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        playerTagert = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).transform;
+        GameObject playerObj = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
+
+        if (playerObj != null)
+        {
+            playerTagert = playerObj.transform;
+        }
+
         enemyAnimation = GetComponent<PlayerAnimation>();
     }
 
@@ -67,14 +76,9 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if (attackType == EnemyAttackType.Gun)
-            {
-                enemyAnimation.PlayAnimation(TagManager.IDLE_ANIMATION_NAME);
-            }
-
+            enemyAnimation.PlayAnimation(TagManager.IDLE_ANIMATION_NAME);
             Attack();
         }
-
     }
 
     void Attack()
@@ -101,26 +105,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     void Shoot()
     {
         if (bulletPrefab == null || shootPoint == null)
-        return;
+            return;
 
-    GameObject bullet = Instantiate(
-        bulletPrefab,
-        shootPoint.position,
-        Quaternion.identity
-    );
+        GameObject bullet = Instantiate(
+            bulletPrefab,
+            shootPoint.position,
+            Quaternion.identity 
+        );
 
-    Vector2 direction = (playerTagert.position - shootPoint.position).normalized;
+        Vector2 direction = (playerTagert.position - shootPoint.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-    bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 15f;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 15f;
 
         canShoot = true;
     }
-
-
 
     void EnemyAttack()
     {
@@ -134,6 +137,10 @@ public class Enemy : MonoBehaviour
     public void EnemyDied()
     {
         enemyDied = true;
+        
+        Collider2D col = GetComponent<Collider2D>();
+        if(col != null) col.enabled = false;
+
         enemyAnimation.PlayAnimation(TagManager.DEATH_ANIMATION_NAME);
         Invoke(nameof(DestroyEnemyAfterDelay), 1.5f);
     }
@@ -144,16 +151,18 @@ public class Enemy : MonoBehaviour
     }
 
     public void GetHit()
-    {
-        if (enemyDied)
-            return;
+{
+    if (enemyDied)
+        return;
 
-        isTakingHit = true;
-
-        enemyAnimation.PlayAnimation(TagManager.GETHIT_ANIMATION_NAME);
-
-        Invoke(nameof(ResetHitState), 0.3f);
-    }
+    isTakingHit = true;
+    
+    // Sửa dòng này: Thay vì dùng TagManager, hãy dùng biến getHitAnimName
+    enemyAnimation.PlayAnimation(getHitAnimName); 
+    
+    // Đảm bảo thời gian ResetHitState khớp với độ dài animation bị trúng đạn của bạn
+    Invoke(nameof(ResetHitState), 0.3f); 
+}
 
     void ResetHitState()
     {
@@ -176,4 +185,20 @@ public class Enemy : MonoBehaviour
         transform.localScale = tempScale;
     }
 
+    public void PlayLazerHitAnim()
+{
+    if (enemyDied) return;
+
+    // Chặn Update di chuyển khi đang bị laser chích
+    isTakingHit = true; 
+    
+    if (!enemyAnimation.IsAnimationPlaying(lazerHitAnimName))
+    {
+        enemyAnimation.PlayAnimation(lazerHitAnimName);
+    }
+
+    // Hủy lệnh Reset cũ nếu có và tạo lệnh mới để quái sớm quay lại trạng thái bình thường
+    CancelInvoke(nameof(ResetHitState));
+    Invoke(nameof(ResetHitState), 0.1f); 
+}
 }
