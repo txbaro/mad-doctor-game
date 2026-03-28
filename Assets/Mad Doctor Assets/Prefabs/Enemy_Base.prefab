@@ -210,8 +210,8 @@ MonoBehaviour:
   moveSpeed: 2
   meleeDistance: 1.5
   rangedDistance: 5
-  lazerHitAnimName: GetElectric6
-  getHitAnimName: GetHit6
+  lazerHitAnimName: GetElectric
+  getHitAnimName: GetHit
   attackWaitTime: 2.5
   attackFinishedWaitTime: 0.5
   enemyDamageArea: {fileID: 1247517025031530782}

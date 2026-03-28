@@ -86,11 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9165573385024024299, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
       propertyPath: getHitAnimName
-      value: GetHit2
+      value: GetHit3
       objectReference: {fileID: 0}
     - target: {fileID: 9165573385024024299, guid: 0d557e8c522e9aa999149e3946e6e1c1, type: 3}
       propertyPath: lazerHitAnimName
-      value: GetElectric2
+      value: GetElectric3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

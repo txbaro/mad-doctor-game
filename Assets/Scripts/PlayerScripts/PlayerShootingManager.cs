@@ -11,7 +11,7 @@ public class GunData
     public string deathAnimName = "Death";
 
     public Sprite gunIcon; 
-    
+    public AudioClip gunShootSound;
     public GameObject bulletPrefab;
     public bool isLaser;
 }
@@ -57,6 +57,17 @@ public class PlayerShootingManager : MonoBehaviour
             
             StopLaser();
         }
+
+        if (Input.GetKeyDown(KeyCode.K) && guns[currentGunIndex].isLaser)
+        {
+            SoundManager.instance.PlayLoopingSound(guns[currentGunIndex].gunShootSound);
+        }
+
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            SoundManager.instance.StopSound();
+            laserObject.SetActive(false); 
+        }
     }
 
     public void Shoot(float facingDirection)
@@ -77,7 +88,10 @@ public class PlayerShootingManager : MonoBehaviour
             newBullet.GetComponent<Bullet>().SetNegativeSpeed();
         }
 
-        SoundManager.instance.PlayShootSound();
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySound(currentGun.gunShootSound);
+        }
     }
 
     public void FireLaser()
@@ -100,6 +114,14 @@ public class PlayerShootingManager : MonoBehaviour
         Vector3 laserScale = laserObject.transform.localScale;
         laserScale.x = Mathf.Abs(laserScale.x); 
         laserObject.transform.localScale = laserScale;
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.PlaySound(guns[currentGunIndex].gunShootSound);
+            }
+        }
     }
 
     public void StopLaser()

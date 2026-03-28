@@ -3,8 +3,6 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-
-    [SerializeField] private AudioClip shootSound;
     private AudioSource audioSource; 
 
     private void Awake()
@@ -21,8 +19,26 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>(); 
     }
 
-    public void PlayShootSound()
+    public void PlaySound(AudioClip clip)
     {
-        if(audioSource) audioSource.PlayOneShot(shootSound); 
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip); 
+        }
+    }
+
+    public void PlayLoopingSound(AudioClip clip)
+    {
+        if (audioSource.clip == clip && audioSource.isPlaying) return; 
+
+        audioSource.clip = clip;
+        audioSource.loop = true; 
+        audioSource.Play();
+    }
+
+    public void StopSound()
+    {
+        audioSource.loop = false;
+        audioSource.Stop();
     }
 }
